@@ -1,0 +1,14 @@
+.letter {
+  height: 100%;
+  aspect-ratio: 1;
+  border: 2px solid #3a3a3c;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  transition: background-color 0.6s ease-in-out;
+}

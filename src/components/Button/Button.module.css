@@ -1,0 +1,33 @@
+.button {
+  padding: 1rem 1.2rem;
+  border: 2px solid #f8f8f8;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-family: "Handlee", cursive;
+  text-transform: capitalize;
+  max-height: 70%;
+  color: #f8f8f8;
+  user-select: none;
+  &:active {
+    transform: scale(1.1);
+  }
+}
+@media only screen and (max-width: 750px) {
+  .button {
+    font-size: 0.8rem;
+    padding: 1rem;
+    max-height: 80%;
+    overflow: hidden;
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .button {
+    font-size: 0.6rem;
+  }
+}

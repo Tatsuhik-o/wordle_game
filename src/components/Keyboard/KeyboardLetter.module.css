@@ -1,0 +1,30 @@
+.keyboard_letter {
+  padding: 1rem;
+  color: #f8f8f8;
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #818384;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease-in-out;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 5px;
+  min-width: 45px;
+  &:active {
+    transform: scale(0.9);
+  }
+}
+@media only screen and (max-width: 750px) {
+  .keyboard_letter {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .keyboard_letter {
+    font-size: 1rem;
+    min-width: 30px;
+  }
+}
