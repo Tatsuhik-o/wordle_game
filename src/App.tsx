@@ -87,6 +87,8 @@ async function verifyWord(checkWord: string): Promise<boolean> {
   }
 }
 
+const alphabets = "abcdefghijklmnopqrstvuwxyz";
+
 function App() {
   const [state, dispatch] = useReducer(reduceFunc, initialState);
   const [gameOver, setGameOver] = useState<boolean>(false);
@@ -95,7 +97,6 @@ function App() {
 
   const CaptureKeyPress = useCallback(
     async (e: KeyboardEvent) => {
-      const alphabets = "abcdefghijklmnopqrstvuwxyz";
       if (e.key === "Backspace") {
         dispatch({ type: "backspace" });
         return;
@@ -119,7 +120,7 @@ function App() {
         }
       }
     },
-    [state]
+    [state, alphabets]
   );
 
   useEffect(() => {
