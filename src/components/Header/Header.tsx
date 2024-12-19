@@ -23,7 +23,7 @@ export default function Header() {
         {icons.map((icon, idx) => (
           <FontAwesomeIcon icon={icon} key={idx} size="lg" />
         ))}
-        <Button contentText={"Subscribe for 60% off"} />
+        <Button contentText={"Subscribe for 60% off"} reset={() => {}} />
       </nav>
     </div>
   );

@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "./components/Header/Header";
 import Keyboard from "./components/Keyboard/Keyboard";
 import Word from "./components/Word/Word";
+import NotAWord from "./components/NotAWord/NotAWord";
 import GameOver from "./components/GameOver/GameOver";
 
 type GlobalState = {
@@ -89,6 +90,7 @@ async function verifyWord(checkWord: string): Promise<boolean> {
 function App() {
   const [state, dispatch] = useReducer(reduceFunc, initialState);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [notDict, setNotDict] = useState<boolean>(false);
   const wordOfTheDay = useRef<string>("");
 
   const CaptureKeyPress = useCallback(
@@ -111,6 +113,7 @@ function App() {
           if (isValid) {
             dispatch({ type: "enter" });
           } else {
+            setNotDict(true);
             console.log("Invalid word!");
           }
         }
@@ -118,6 +121,15 @@ function App() {
     },
     [state]
   );
+
+  useEffect(() => {
+    const notDictDelay = setTimeout(() => {
+      setNotDict(false);
+    }, 850);
+    return () => {
+      clearTimeout(notDictDelay);
+    };
+  }, [notDict]);
 
   useEffect(() => {
     document.addEventListener("keydown", CaptureKeyPress);
@@ -136,6 +148,8 @@ function App() {
     }
     fetchWordOfTheDay();
   }, []);
+
+  console.log(notDict);
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -160,6 +174,7 @@ function App() {
         />
       )}
       <Header />
+      {notDict && <NotAWord />}
       <div className="words_placeholder">
         {state.allWords.map((word, idx) => (
           <Word
