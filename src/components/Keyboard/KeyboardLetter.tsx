@@ -2,6 +2,9 @@ import styles from "./KeyboardLetter.module.css";
 
 type KeyboardLetterProps = {
   letter: string;
+  correctLetters: string[];
+  changeLetters: string[];
+  incorrectLetters: string[];
 };
 
 function triggerEvent(key: string) {
@@ -25,11 +28,25 @@ function triggerEvent(key: string) {
   document.dispatchEvent(event);
 }
 
-export default function KeyboardLetter({ letter }: KeyboardLetterProps) {
+export default function KeyboardLetter({
+  letter,
+  correctLetters,
+  changeLetters,
+  incorrectLetters,
+}: KeyboardLetterProps) {
+  const customStyle = correctLetters.includes(letter)
+    ? { backgroundColor: "#538D4E" }
+    : changeLetters.includes(letter)
+    ? { backgroundColor: "#B49F3B" }
+    : incorrectLetters.includes(letter)
+    ? { backgroundColor: "#3A3A3C" }
+    : {};
+
   return (
     <div
       className={styles.keyboard_letter}
       onClick={() => triggerEvent(letter)}
+      style={customStyle}
     >
       {letter.toUpperCase()}
     </div>
