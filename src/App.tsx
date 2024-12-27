@@ -200,6 +200,8 @@ function App() {
     };
   }, [state.gameState, state.currentCount]);
 
+  console.log("This is optimizations branch");
+
   return (
     <div className="app">
       {gameOver && (
