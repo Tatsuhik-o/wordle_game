@@ -11,6 +11,9 @@ type GlobalState = {
   currentWord: string;
   allWords: string[];
   gameState: boolean;
+  correctLetters: string[];
+  incorrectLetters: string[];
+  changeLetters: string[];
 };
 
 type ActionType =
@@ -19,13 +22,17 @@ type ActionType =
   | { type: "backspace" }
   | { type: "enter" }
   | { type: "game_over" }
-  | { type: "reset" };
+  | { type: "reset" }
+  | { type: "check_letters"; payload: string };
 
 const initialState: GlobalState = {
   currentCount: 0,
   currentWord: "",
   allWords: ["", "", "", "", "", ""],
   gameState: false,
+  correctLetters: [],
+  incorrectLetters: [],
+  changeLetters: [],
 };
 
 function reduceFunc(state: GlobalState, action: ActionType): GlobalState {
@@ -50,6 +57,36 @@ function reduceFunc(state: GlobalState, action: ActionType): GlobalState {
       return {
         ...state,
         currentCount: state.currentCount + 1,
+      };
+    case "check_letters":
+      return {
+        ...state,
+        correctLetters: [
+          ...state.correctLetters,
+          ...state.allWords[state.currentCount]
+            .split("")
+            .filter(
+              (letter, idx) =>
+                action.payload.split("").includes(letter) &&
+                action.payload.split("")[idx] === letter
+            ),
+        ],
+        changeLetters: [
+          ...state.changeLetters,
+          ...state.allWords[state.currentCount]
+            .split("")
+            .filter(
+              (letter, idx) =>
+                action.payload.split("").includes(letter) &&
+                action.payload.split("")[idx] !== letter
+            ),
+        ],
+        incorrectLetters: [
+          ...state.incorrectLetters,
+          ...state.allWords[state.currentCount]
+            .split("")
+            .filter((letter) => !action.payload.split("").includes(letter)),
+        ],
       };
     case "game_over":
       return {
@@ -112,6 +149,10 @@ function App() {
           }
           const isValid = await verifyWord(state.allWords[state.currentCount]);
           if (isValid) {
+            dispatch({
+              type: "check_letters",
+              payload: wordOfTheDay.current,
+            });
             dispatch({ type: "enter" });
           } else {
             setNotDict(true);
@@ -150,8 +191,6 @@ function App() {
     fetchWordOfTheDay();
   }, []);
 
-  console.log(notDict);
-
   useEffect(() => {
     const delay = setTimeout(() => {
       if (state.gameState || state.currentCount >= 6) setGameOver(true);
@@ -187,7 +226,11 @@ function App() {
         ))}
       </div>
       <div className="keyboard">
-        <Keyboard />
+        <Keyboard
+          correctLetters={state.correctLetters}
+          changeLetters={state.changeLetters}
+          incorrectLetters={state.incorrectLetters}
+        />
       </div>
     </div>
   );
