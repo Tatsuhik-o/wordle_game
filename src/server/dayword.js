@@ -28,6 +28,7 @@ const query = `SELECT word FROM word_list WHERE id = ?`;
 const randomID = Math.floor(Math.random() * process.env.DB_LENGTH) + 1;
 
 app.get("/word", (request, response) => {
+  console.log(randomID);
   try {
     db.query(query, [randomID], (err, results) => {
       if (err) {
