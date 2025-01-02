@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mysql from "mysql2";
+import { createClient } from "redis";
 
 dotenv.config();
 
@@ -24,18 +25,30 @@ db.connect((err, results) => {
   console.log("Connect to db successfully ...");
 });
 
+const redisClient = createClient();
+
+redisClient.on("error", (err) => console.error("Redis Client Error", err));
+await redisClient.connect();
+
 const query = `SELECT word FROM word_list WHERE id = ?`;
 const randomID = Math.floor(Math.random() * process.env.DB_LENGTH) + 1;
 
-app.get("/word", (request, response) => {
-  console.log(randomID);
+app.get("/word", async (request, response) => {
+  const todayWord = new Date().toISOString().split("T")[0];
+  const cachedWord = await redisClient.get(todayWord);
   try {
-    db.query(query, [randomID], (err, results) => {
+    if (cachedWord) {
+      console.log("Cache hit");
+      return response.status(200).json({ word: cachedWord });
+    }
+    console.log("Cache miss");
+    db.query(query, [randomID], async (err, results) => {
       if (err) {
         console.log("Failed to fetch word from database");
         return response.status(500).json({ word: "Error" });
       }
       if (results.length) {
+        await redisClient.set(todayWord, results[0].word, { EX: 86400 });
         return response.status(200).json({ word: results[0].word });
       }
       console.log(results);
