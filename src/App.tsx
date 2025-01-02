@@ -102,22 +102,24 @@ function reduceFunc(state: GlobalState, action: ActionType): GlobalState {
 }
 
 async function verifyWord(checkWord: string): Promise<boolean> {
-  const API_URL = "https://api.frontendeval.com/fake/word/valid";
-  const options: { method: "POST"; headers: HeadersInit; body: string } = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  const API_URL = "http://localhost:3000/check";
+  const options: RequestInit = {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ word: checkWord }),
   };
 
   try {
     const response = await fetch(API_URL, options);
+
     if (!response.ok) {
       console.error("Error response status:", response.status);
       return false;
     }
-
-    const result: boolean = await response.json();
-    return result;
+    const result = await response.json();
+    return result.message;
   } catch (error) {
     console.error("Error verifying word:", error);
     return false;
@@ -182,10 +184,10 @@ function App() {
 
   useEffect(() => {
     async function fetchWordOfTheDay() {
-      const response = await fetch("https://api.frontendeval.com/fake/word");
+      const response = await fetch("http://localhost:3001/word");
       if (response.ok) {
-        const data = await response.text();
-        wordOfTheDay.current = data;
+        const data = await response.json();
+        wordOfTheDay.current = data.word;
       }
     }
     fetchWordOfTheDay();
