@@ -102,7 +102,7 @@ function reduceFunc(state: GlobalState, action: ActionType): GlobalState {
 }
 
 async function verifyWord(checkWord: string): Promise<boolean> {
-  const API_URL = "http://localhost:3000/check_word";
+  const API_URL: string = `http://localhost:3000/check_word`;
   const options: RequestInit = {
     method: "post",
     headers: {

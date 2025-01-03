@@ -2,13 +2,11 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mysql from "mysql2";
-import { createClient } from "redis";
+import NodeCache from "node-cache";
+
+const myCache = new NodeCache();
 
 dotenv.config();
-
-const redisClient = createClient();
-redisClient.on("error", (err) => console.log("Redis Client Error", err));
-await redisClient.connect();
 
 const app = express();
 app.use(express.json());
@@ -50,7 +48,7 @@ app.post("/check_word", async (request, response) => {
 });
 
 app.get("/today_word", async (request, response) => {
-  const cacheWord = await redisClient.get(todayDate);
+  const cacheWord = myCache.get(todayDate);
   if (cacheWord) {
     return response.status(200).json({ word: cacheWord });
   }
@@ -62,11 +60,11 @@ app.get("/today_word", async (request, response) => {
         .status(500)
         .json({ message: "Server is Unreachable ..." });
     }
-    await redisClient.set(`${todayDate}`, results[0].word, { EX: 86400 });
+    myCache.set(todayDate, results[0].word, 86400);
     return response.status(200).json({ word: results[0].word });
   });
 });
 
-app.listen(3000, () => {
+app.listen(3000, "0.0.0.0", () => {
   console.log("Server is running on port 3000");
 });
