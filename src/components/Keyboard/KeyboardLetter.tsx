@@ -39,7 +39,7 @@ export default function KeyboardLetter({
     : changeLetters.includes(letter)
     ? { backgroundColor: "#B49F3B" }
     : incorrectLetters.includes(letter)
-    ? { backgroundColor: "#3A3A3C" }
+    ? { backgroundColor: "#121213" }
     : {};
 
   return (

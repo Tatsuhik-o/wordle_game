@@ -102,7 +102,7 @@ function reduceFunc(state: GlobalState, action: ActionType): GlobalState {
 }
 
 async function verifyWord(checkWord: string): Promise<boolean> {
-  const API_URL = "http://localhost:3000/check";
+  const API_URL = "http://localhost:3000/check_word";
   const options: RequestInit = {
     method: "post",
     headers: {
@@ -158,7 +158,6 @@ function App() {
             dispatch({ type: "enter" });
           } else {
             setNotDict(true);
-            console.log("Invalid word!");
           }
         }
       }
@@ -184,7 +183,7 @@ function App() {
 
   useEffect(() => {
     async function fetchWordOfTheDay() {
-      const response = await fetch("http://localhost:3001/word");
+      const response = await fetch("http://localhost:3000/today_word");
       if (response.ok) {
         const data = await response.json();
         wordOfTheDay.current = data.word;
