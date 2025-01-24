@@ -28,7 +28,7 @@ db.connect((error, results) => {
 });
 
 const checkQuery = `SELECT id FROM word_list WHERE word = ?`;
-const todayWordQuery = `SELECT word FROM word_list WHERE id = ?`;
+const todayWordQuery = `SELECT word FROM wordlist WHERE id = ?`;
 const todayDate = new Date().toISOString().split("T")[0];
 
 app.post("/check_word", async (request, response) => {
