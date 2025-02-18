@@ -1,4 +1,4 @@
-import { getDBConnection } from "./db.js"; // Explicit file extension
+import { getDBConnection } from "./db.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -20,7 +20,6 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ word: results[0].word });
   } catch (error) {
-    console.error("Database error:", error);
     return res.status(500).json({ message: "Server is Unreachable ..." });
   }
 }

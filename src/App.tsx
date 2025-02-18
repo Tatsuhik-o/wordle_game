@@ -188,6 +188,7 @@ function App() {
       );
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         wordOfTheDay.current = data.word.toLowerCase();
       }
     }
