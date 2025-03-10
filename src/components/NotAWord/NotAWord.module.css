@@ -1,6 +1,6 @@
 .not_a_word {
   position: absolute;
-  top: 6rem;
+  top: 50px;
   z-index: 10;
   font-size: 1rem;
   background-color: white;

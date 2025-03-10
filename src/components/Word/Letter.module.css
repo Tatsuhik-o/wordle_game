@@ -1,5 +1,6 @@
 .letter {
   height: 100%;
+  min-height: 60px;
   aspect-ratio: 1;
   border: 2px solid #3a3a3c;
   color: white;

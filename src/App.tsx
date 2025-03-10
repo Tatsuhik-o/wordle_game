@@ -168,7 +168,7 @@ function App() {
   useEffect(() => {
     const notDictDelay = setTimeout(() => {
       setNotDict(false);
-    }, 850);
+    }, 1000);
     return () => {
       clearTimeout(notDictDelay);
     };
@@ -188,7 +188,6 @@ function App() {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         wordOfTheDay.current = data.word.toLowerCase();
       }
     }
@@ -209,7 +208,8 @@ function App() {
       {gameOver && (
         <GameOver
           player={
-            state.allWords[state.currentCount - 2] === wordOfTheDay.current
+            state.allWords[state.currentCount - 2] === wordOfTheDay.current ||
+            state.allWords[state.currentCount - 1] === wordOfTheDay.current
           }
           reset={() => {
             dispatch({ type: "reset" });
