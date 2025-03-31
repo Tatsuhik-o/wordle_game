@@ -6,10 +6,11 @@ export default async function handler(req, res) {
   }
 
   const { word } = req.body;
-  console.log(word);
   if (!word) {
     return res.status(400).json({ message: "Word is required" });
   }
+
+  console.log("Received word:", word);
 
   const checkQuery = "SELECT id FROM wordlist WHERE word = ?";
 

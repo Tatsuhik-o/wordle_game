@@ -6,7 +6,6 @@ export default async function handler(req, res) {
   }
 
   const todayWordQuery = "SELECT word FROM wordlist WHERE id = ?";
-  const todayDate = new Date().toISOString().split("T")[0];
   const randomID = Math.floor(Math.random() * process.env.DB_LENGTH) + 1;
 
   try {
@@ -17,6 +16,8 @@ export default async function handler(req, res) {
     if (results.length === 0) {
       return res.status(404).json({ message: "Word not found" });
     }
+
+    console.log(`Today's Word: ${results[0].word} `);
 
     return res.status(200).json({ word: results[0].word });
   } catch (error) {

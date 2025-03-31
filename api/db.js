@@ -12,7 +12,6 @@ export async function getDBConnection() {
       database: process.env.DB_NAME,
       port: process.env.PORT,
     });
-    console.log("DB Connection Success!");
     return connection;
   } catch (error) {
     console.error("DB Connection Error:", error);

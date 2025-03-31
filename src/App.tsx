@@ -102,7 +102,7 @@ function reduceFunc(state: GlobalState, action: ActionType): GlobalState {
 }
 
 async function verifyWord(checkWord: string): Promise<boolean> {
-  const API_URL: string = `https://wordle-nine-omega.vercel.app/api/check_word`;
+  const API_URL: string = `http://localhost:3000/api/check_word`;
   const options: RequestInit = {
     method: "post",
     headers: {
@@ -183,9 +183,7 @@ function App() {
 
   useEffect(() => {
     async function fetchWordOfTheDay() {
-      const response = await fetch(
-        "https://wordle-nine-omega.vercel.app/api/today_word"
-      );
+      const response = await fetch("http://localhost:3000/api/today_word");
       if (response.ok) {
         const data = await response.json();
         wordOfTheDay.current = data.word.toLowerCase();
